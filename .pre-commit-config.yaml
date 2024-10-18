@@ -6,6 +6,7 @@ repos:
       - id: poetry-lock
         args:
           - --no-update
+          - --no-cache
       - id: poetry-install
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.3.3
