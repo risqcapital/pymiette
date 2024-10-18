@@ -43,6 +43,6 @@ extend-select = [
     "FA102" # future-required-type-annotation
 ]
 
-extend-ignore=[
+extend-ignore = [
     "TRY003"
 ]
