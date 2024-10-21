@@ -12,6 +12,8 @@ name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    environment:
+      name: release-please
     steps:
       - uses: actions/create-github-app-token@v1
         id: app-token
