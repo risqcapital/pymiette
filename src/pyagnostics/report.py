@@ -50,14 +50,16 @@ class LabeledSourceBlock:
             yield Segment("╭───\n")
 
         src_line_start_index = self.start_char_index
-        for i, line in enumerate(self.source.split("\n")):
+
+        for i, line in enumerate(self.source.splitlines()):
             labels_in_line = [
                 label
                 for label in self.labels
                 if src_line_start_index
                 <= label.span.start
-                < src_line_start_index + len(line)
+                <= src_line_start_index + len(line)
             ]
+
             labels_in_line = sorted(labels_in_line, key=lambda label: label.span.start)
 
             yield Segment(

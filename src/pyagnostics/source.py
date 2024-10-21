@@ -55,14 +55,14 @@ class InMemorySource(SourceCode):
         for i, line in enumerate(lines[start_line_idx:]):
             chars_in_lines += len(line)
             if chars_before + chars_in_lines >= span.end:
-                end_line_idx = i + start_line_idx + 1
+                end_line_idx = i + start_line_idx
                 break
 
         if end_line_idx is None:
             raise ValueError("Span end is out of bounds")
 
         return InMemorySpanContents(
-            data="".join(lines[start_line_idx : end_line_idx + 1]),
+            data="".join(lines[start_line_idx : end_line_idx + 1]).rstrip(),
             span=SourceSpan(chars_before, chars_before + chars_in_lines),
             line=start_line_idx + 1,
             column=0,
