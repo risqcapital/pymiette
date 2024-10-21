@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.3](https://github.com/risqcapital/pyagnostics/compare/v1.0.1...v1.0.3) (2024-10-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Swap LabeledSpan argument order
+
+### Bug Fixes
+
+* Swap LabeledSpan argument order ([f20239e](https://github.com/risqcapital/pyagnostics/commit/f20239eb933b4dbcd05555137be0ed6a82b8dcbc))
+
 ## [1.0.1](https://github.com/risqcapital/pyagnostics/compare/v1.0.0...v1.0.1) (2024-10-21)
 
 
