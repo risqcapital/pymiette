@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/risqcapital/pyagnostics/compare/v0.1.0...v1.0.0) (2024-10-21)
+
+
+### Miscellaneous Chores
+
+* release 1.0.0 ([f7c76d8](https://github.com/risqcapital/pyagnostics/commit/f7c76d89c16791e6d03f59e9a88e32dbfb9139c3))
+
 ## 0.1.0 (2024-10-21)
 
 
