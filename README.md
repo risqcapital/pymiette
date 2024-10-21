@@ -2,6 +2,8 @@
 
 `pyagnostics` is a fancy diagnostics & error reporting library for Python.
 
+![An example of a rendered diagnostic](./example.png)
+
 ## Acknowledgements
 
 This project was heavily inspired by:
