@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/risqcapital/pyagnostics/compare/v1.0.0...v1.0.1) (2024-10-21)
+
+
+### Bug Fixes
+
+* Add py.typed ([2bc42e2](https://github.com/risqcapital/pyagnostics/commit/2bc42e2b97b3d9a0aba20e2abffc89fc276d45df))
+
 ## [1.0.0](https://github.com/risqcapital/pyagnostics/compare/v0.1.0...v1.0.0) (2024-10-21)
 
 
