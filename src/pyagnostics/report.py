@@ -212,7 +212,10 @@ class Report(RichCast):
                 if first:
                     first = False
                     for frame in stack.frames:
-                        if any(frame.filename.startswith(path) for path in self.suppressed_frame_paths):
+                        if any(
+                            frame.filename.startswith(path)
+                            for path in self.suppressed_frame_paths
+                        ):
                             continue
 
                         causes.append(
