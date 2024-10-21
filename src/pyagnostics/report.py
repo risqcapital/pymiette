@@ -183,6 +183,7 @@ class CauseList(ConsoleRenderable):
 @dataclass
 class Report(RichCast):
     diag: Diagnostic
+    suppressed_frame_paths: Sequence[str] = field(default_factory=list)
 
     @group()
     def _render_header(self: Self) -> RenderResult:
@@ -211,6 +212,9 @@ class Report(RichCast):
                 if first:
                     first = False
                     for frame in stack.frames:
+                        if any(frame.filename.startswith(path) for path in self.suppressed_frame_paths):
+                            continue
+
                         causes.append(
                             f"in File {frame.filename}:{frame.lineno} in {frame.name}"
                         )

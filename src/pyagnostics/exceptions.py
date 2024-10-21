@@ -1,6 +1,8 @@
 import dataclasses
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Self, cast
+from pathlib import Path
+from types import ModuleType
+from typing import TYPE_CHECKING, Self, cast, MutableSequence
 
 from rich.abc import RichRenderable
 from rich.console import Group, RenderableType, RichCast
@@ -9,6 +11,14 @@ from pyagnostics.protocols import Diagnostic, SourceCode, WithSourceCode
 from pyagnostics.report import Report
 from pyagnostics.severity import Severity
 from pyagnostics.spans import LabeledSpan
+
+_suppressed_frame_paths: MutableSequence[str] = []
+
+def supress_diagnostic_frames(*modules: str | ModuleType) -> None:
+    global _suppressed_frame_paths
+    _suppressed_frame_paths.extend(
+        [str(Path(module.__file__).parent.resolve()) if isinstance(module, ModuleType) else module for module in modules]
+    )
 
 
 @dataclass
@@ -34,7 +44,7 @@ class DiagnosticError(RichCast, WithSourceCode, Exception):
         self.notes.append(note)
 
     def __rich__(self: Self) -> RenderableType:
-        return Report(self)
+        return Report(self, suppressed_frame_paths=_suppressed_frame_paths)
 
 
 if TYPE_CHECKING:
