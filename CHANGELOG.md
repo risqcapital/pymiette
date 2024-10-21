@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/risqcapital/pyagnostics/compare/v1.0.3...v1.1.0) (2024-10-21)
+
+
+### Features
+
+* Allow suppressing stack frames in diag reports ([#12](https://github.com/risqcapital/pyagnostics/issues/12)) ([91d17d0](https://github.com/risqcapital/pyagnostics/commit/91d17d09fc5d3f9f22b9717bac30e4aaede33452))
+
+
+### Bug Fixes
+
+* Off by one/whitespace bugs in labeled span printing ([#11](https://github.com/risqcapital/pyagnostics/issues/11)) ([c8f6dc3](https://github.com/risqcapital/pyagnostics/commit/c8f6dc33023a3f0834a7a123b0cf60cae1c565a3))
+
 ## [1.0.3](https://github.com/risqcapital/pyagnostics/compare/v1.0.1...v1.0.3) (2024-10-21)
 
 
