@@ -14,5 +14,5 @@ class SourceSpan:
 
 @dataclass(eq=True, frozen=True)
 class LabeledSpan:
-    label: RenderableType
     span: SourceSpan
+    label: RenderableType

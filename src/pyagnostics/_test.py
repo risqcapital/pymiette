@@ -29,7 +29,7 @@ def main() -> None:
                     severity=Severity.ERROR,
                     code="pyagnostics::test",
                     message="Some error occurred",
-                    labels=[LabeledSpan("this", SourceSpan(4, 5))],
+                    labels=[LabeledSpan(SourceSpan(4, 5), "this")],
                     notes=[
                         "[blue]help:[/blue] You did something dumb",
                         "[green]did you mean:[/green] 1 + 3",
