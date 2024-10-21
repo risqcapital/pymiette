@@ -1,5 +1,8 @@
 import dataclasses
+from collections.abc import MutableSequence
 from dataclasses import dataclass
+from pathlib import Path
+from types import ModuleType
 from typing import TYPE_CHECKING, Self, cast
 
 from rich.abc import RichRenderable
@@ -9,6 +12,21 @@ from pyagnostics.protocols import Diagnostic, SourceCode, WithSourceCode
 from pyagnostics.report import Report
 from pyagnostics.severity import Severity
 from pyagnostics.spans import LabeledSpan
+
+_suppressed_frame_paths: MutableSequence[str] = []
+
+
+def supress_diagnostic_frames(*modules: str | ModuleType) -> None:
+    for module in modules:
+        match module:
+            case str() as module:
+                _suppressed_frame_paths.append(module)
+            case ModuleType() as module if module.__file__ is not None:
+                _suppressed_frame_paths.append(
+                    str(Path(module.__file__).parent.resolve())
+                )
+            case _:
+                raise ValueError(f"Unsupported module type: {module}")
 
 
 @dataclass
@@ -34,7 +52,7 @@ class DiagnosticError(RichCast, WithSourceCode, Exception):
         self.notes.append(note)
 
     def __rich__(self: Self) -> RenderableType:
-        return Report(self)
+        return Report(self, suppressed_frame_paths=_suppressed_frame_paths)
 
 
 if TYPE_CHECKING:
