@@ -3,12 +3,20 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Self
 
-from pyagnostics.protocols import SourceCode, SourceSpan, SpanContents, WithSourceCode
+from rich.text import Text
+
+from pyagnostics.protocols import (
+    SourceCode,
+    SourceCodeHighlighter,
+    SourceSpan,
+    SpanContents,
+    WithSourceCode,
+)
 
 
 @dataclass
 class InMemorySpanContents:
-    data: str
+    text: Text
     span: SourceSpan
     line: int
     column: int
@@ -62,12 +70,37 @@ class InMemorySource(SourceCode):
             raise ValueError("Span end is out of bounds")
 
         return InMemorySpanContents(
-            data="".join(lines[start_line_idx : end_line_idx + 1]).rstrip(),
+            text=Text("".join(lines[start_line_idx : end_line_idx + 1])),
             span=SourceSpan(chars_before, chars_before + chars_in_lines),
             line=start_line_idx + 1,
             column=0,
             line_count=end_line_idx - start_line_idx,
             name=self.name,
+        )
+
+
+@dataclass
+class HighlightedSource(SourceCode):
+    inner: SourceCode
+    highlighter: SourceCodeHighlighter
+
+    def read_span(
+        self: Self,
+        span: SourceSpan,
+        context_lines_before: int = 0,
+        context_lines_after: int = 0,
+    ) -> SpanContents:
+        span_contents = self.inner.read_span(
+            span, context_lines_before, context_lines_after
+        )
+        span_contents = self.highlighter.highlight(span_contents)
+        return InMemorySpanContents(
+            text=span_contents.text,
+            span=span_contents.span,
+            line=span_contents.line,
+            column=span_contents.column,
+            line_count=span_contents.line_count,
+            name=span_contents.name,
         )
 
 
