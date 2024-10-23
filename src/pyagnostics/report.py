@@ -84,7 +84,9 @@ class LabeledSourceBlock:
                             label.span.start - src_line_start_index - labels_line_length
                         )
                         # If the label exceeds the line length, truncate it to fit
-                        label_len = min(label.span.end - label.span.start, len(line) - before_len)
+                        label_len = min(
+                            label.span.end - label.span.start, len(line) - before_len
+                        )
                         label_before_middle_len = label_len // 2
                         label_after_middle_len = label_len - label_before_middle_len - 1
 
