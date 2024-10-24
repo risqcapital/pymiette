@@ -59,6 +59,10 @@ class Diagnostic(Protocol):
     def source_code(self: Self) -> SourceCode | None: ...
 
     @property
+    def highlighter(self: Self) -> SourceCodeHighlighter | None:
+        return None
+
+    @property
     def labels(self: Self) -> Sequence[LabeledSpan]: ...
 
     @property
@@ -67,4 +71,8 @@ class Diagnostic(Protocol):
 
 @runtime_checkable
 class WithSourceCode(Protocol):
-    def with_source_code(self: Self, source_code: SourceCode) -> Self: ...
+    def with_source_code(
+        self: Self,
+        source_code: SourceCode,
+        highlighter: SourceCodeHighlighter | None = None,
+    ) -> Self: ...

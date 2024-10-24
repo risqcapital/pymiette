@@ -79,37 +79,14 @@ class InMemorySource(SourceCode):
         )
 
 
-@dataclass
-class HighlightedSource(SourceCode):
-    inner: SourceCode
-    highlighter: SourceCodeHighlighter
-
-    def read_span(
-        self: Self,
-        span: SourceSpan,
-        context_lines_before: int = 0,
-        context_lines_after: int = 0,
-    ) -> SpanContents:
-        span_contents = self.inner.read_span(
-            span, context_lines_before, context_lines_after
-        )
-        span_contents = self.highlighter.highlight(span_contents)
-        return InMemorySpanContents(
-            text=span_contents.text,
-            span=span_contents.span,
-            line=span_contents.line,
-            column=span_contents.column,
-            line_count=span_contents.line_count,
-            name=span_contents.name,
-        )
-
-
 @contextmanager
-def attach_diagnostic_source_code(source_code: SourceCode) -> Iterator[None]:
+def attach_diagnostic_source_code(
+    source_code: SourceCode, highlighter: SourceCodeHighlighter | None = None
+) -> Iterator[None]:
     try:
         yield None
     except Exception as e:
         if isinstance(e, WithSourceCode):
-            raise e.with_source_code(source_code)
+            raise e.with_source_code(source_code, highlighter=highlighter)
         else:
             raise

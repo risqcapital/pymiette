@@ -8,7 +8,12 @@ from typing import TYPE_CHECKING, Self, cast
 from rich.abc import RichRenderable
 from rich.console import Group, RenderableType, RichCast
 
-from pyagnostics.protocols import Diagnostic, SourceCode, WithSourceCode
+from pyagnostics.protocols import (
+    Diagnostic,
+    SourceCode,
+    SourceCodeHighlighter,
+    WithSourceCode,
+)
 from pyagnostics.report import Report
 from pyagnostics.severity import Severity
 from pyagnostics.spans import LabeledSpan
@@ -35,6 +40,7 @@ class DiagnosticError(RichCast, WithSourceCode, Exception):
     code: RenderableType | None = None
     message: RenderableType | None = None
     source_code: SourceCode | None = None
+    highlighter: SourceCodeHighlighter | None = None
     labels: list[LabeledSpan] = dataclasses.field(default_factory=list)
     notes: list[RenderableType] = dataclasses.field(default_factory=list)
     context: list[RenderableType] = dataclasses.field(default_factory=list)
@@ -43,9 +49,14 @@ class DiagnosticError(RichCast, WithSourceCode, Exception):
         self.context.append(context)
         return self
 
-    def with_source_code(self: Self, source_code: SourceCode) -> Self:
+    def with_source_code(
+        self: Self,
+        source_code: SourceCode,
+        highlighter: SourceCodeHighlighter | None = None,
+    ) -> Self:
         if self.source_code is None:
             self.source_code = source_code
+            self.highlighter = highlighter
         return self
 
     def add_note(self: Self, note: str) -> None:
@@ -60,10 +71,14 @@ if TYPE_CHECKING:
 
 
 class DiagnosticErrorGroup(ExceptionGroup[DiagnosticError], WithSourceCode, RichCast):
-    def with_source_code(self: Self, source_code: SourceCode) -> Self:
+    def with_source_code(
+        self: Self,
+        source_code: SourceCode,
+        highlighter: SourceCodeHighlighter | None = None,
+    ) -> Self:
         for exception in self.exceptions:
             if isinstance(exception, WithSourceCode):
-                exception.with_source_code(source_code)
+                exception.with_source_code(source_code, highlighter=highlighter)
 
         return self
 

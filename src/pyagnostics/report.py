@@ -274,6 +274,8 @@ class Report(RichCast):
         max_char = max(label.span.end for label in self.diag.labels)
 
         span_contents = self.diag.source_code.read_span(SourceSpan(min_char, max_char))
+        if self.diag.highlighter is not None:
+            span_contents = self.diag.highlighter.highlight(span_contents)
 
         yield NewLine()
         yield LabeledSourceBlock(
