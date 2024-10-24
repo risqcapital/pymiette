@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.0](https://github.com/risqcapital/pyagnostics/compare/v1.1.0...v2.0.0) (2024-10-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* Add support for Syntax Highlighting diagnostic source ([#17](https://github.com/risqcapital/pyagnostics/issues/17))
+
+### Features
+
+* Add support for Syntax Highlighting diagnostic source ([#17](https://github.com/risqcapital/pyagnostics/issues/17)) ([f972107](https://github.com/risqcapital/pyagnostics/commit/f972107062004ec69b7b3021f7ae58070777b134))
+
+
+### Bug Fixes
+
+* Crop label to line length ([#16](https://github.com/risqcapital/pyagnostics/issues/16)) ([b6230cd](https://github.com/risqcapital/pyagnostics/commit/b6230cd9b036d1c5c17d5664b13bba90684b9ed8))
+* **deps:** bump rich from 13.9.2 to 13.9.3 ([#15](https://github.com/risqcapital/pyagnostics/issues/15)) ([da96db2](https://github.com/risqcapital/pyagnostics/commit/da96db2cfe49706bcea8ae10ec3f7f8894413215))
+
 ## [1.1.0](https://github.com/risqcapital/pyagnostics/compare/v1.0.3...v1.1.0) (2024-10-21)
 
 
