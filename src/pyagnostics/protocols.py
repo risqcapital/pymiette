@@ -2,6 +2,7 @@ from collections.abc import Sequence
 from typing import Protocol, Self, runtime_checkable
 
 from rich.console import RenderableType
+from rich.text import Text
 
 from pyagnostics.severity import Severity
 from pyagnostics.spans import LabeledSpan, SourceSpan
@@ -9,7 +10,7 @@ from pyagnostics.spans import LabeledSpan, SourceSpan
 
 class SpanContents(Protocol):
     @property
-    def data(self: Self) -> str: ...
+    def text(self: Self) -> Text: ...
 
     @property
     def span(self: Self) -> SourceSpan: ...
@@ -36,6 +37,10 @@ class SourceCode(Protocol):
     ) -> SpanContents: ...
 
 
+class SourceCodeHighlighter(Protocol):
+    def highlight(self: Self, span_contents: SpanContents) -> SpanContents: ...
+
+
 @runtime_checkable
 class Diagnostic(Protocol):
     @property
@@ -54,6 +59,10 @@ class Diagnostic(Protocol):
     def source_code(self: Self) -> SourceCode | None: ...
 
     @property
+    def highlighter(self: Self) -> SourceCodeHighlighter | None:
+        return None
+
+    @property
     def labels(self: Self) -> Sequence[LabeledSpan]: ...
 
     @property
@@ -62,4 +71,8 @@ class Diagnostic(Protocol):
 
 @runtime_checkable
 class WithSourceCode(Protocol):
-    def with_source_code(self: Self, source_code: SourceCode) -> Self: ...
+    def with_source_code(
+        self: Self,
+        source_code: SourceCode,
+        highlighter: SourceCodeHighlighter | None = None,
+    ) -> Self: ...

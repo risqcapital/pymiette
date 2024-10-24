@@ -3,12 +3,20 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Self
 
-from pyagnostics.protocols import SourceCode, SourceSpan, SpanContents, WithSourceCode
+from rich.text import Text
+
+from pyagnostics.protocols import (
+    SourceCode,
+    SourceCodeHighlighter,
+    SourceSpan,
+    SpanContents,
+    WithSourceCode,
+)
 
 
 @dataclass
 class InMemorySpanContents:
-    data: str
+    text: Text
     span: SourceSpan
     line: int
     column: int
@@ -62,7 +70,7 @@ class InMemorySource(SourceCode):
             raise ValueError("Span end is out of bounds")
 
         return InMemorySpanContents(
-            data="".join(lines[start_line_idx : end_line_idx + 1]).rstrip(),
+            text=Text("".join(lines[start_line_idx : end_line_idx + 1])),
             span=SourceSpan(chars_before, chars_before + chars_in_lines),
             line=start_line_idx + 1,
             column=0,
@@ -72,11 +80,13 @@ class InMemorySource(SourceCode):
 
 
 @contextmanager
-def attach_diagnostic_source_code(source_code: SourceCode) -> Iterator[None]:
+def attach_diagnostic_source_code(
+    source_code: SourceCode, highlighter: SourceCodeHighlighter | None = None
+) -> Iterator[None]:
     try:
         yield None
     except Exception as e:
         if isinstance(e, WithSourceCode):
-            raise e.with_source_code(source_code)
+            raise e.with_source_code(source_code, highlighter=highlighter)
         else:
             raise

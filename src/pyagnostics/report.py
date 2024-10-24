@@ -29,7 +29,7 @@ from pyagnostics.spans import LabeledSpan, SourceSpan
 
 @dataclass
 class LabeledSourceBlock:
-    source: str
+    source: Text
     title: str | None = None
     start_line: int = 1
     start_char_index: int = 0
@@ -38,7 +38,9 @@ class LabeledSourceBlock:
     def __rich_console__(
         self: Self, _console: Console, _options: ConsoleOptions
     ) -> RenderResult:
-        lines_in_src = len(self.source.splitlines())
+        lines = self.source.split()
+
+        lines_in_src = len(lines)
         line_number_max_len = len(str(lines_in_src + self.start_line))
         line_numbers_padding = " " * (line_number_max_len + 1)
 
@@ -51,7 +53,7 @@ class LabeledSourceBlock:
 
         src_line_start_index = self.start_char_index
 
-        for i, line in enumerate(self.source.splitlines()):
+        for i, line in enumerate(lines):
             labels_in_line = [
                 label
                 for label in self.labels
@@ -67,8 +69,7 @@ class LabeledSourceBlock:
                 style=Style(dim=True),
             )
             yield Segment(" │ ")
-            yield Segment(line)
-            yield Segment("\n")
+            yield line
 
             if labels_in_line:
                 for j in range(len(labels_in_line) + 1):
@@ -276,10 +277,12 @@ class Report(RichCast):
         max_char = max(label.span.end for label in self.diag.labels)
 
         span_contents = self.diag.source_code.read_span(SourceSpan(min_char, max_char))
+        if self.diag.highlighter is not None:
+            span_contents = self.diag.highlighter.highlight(span_contents)
 
         yield NewLine()
         yield LabeledSourceBlock(
-            span_contents.data,
+            span_contents.text,
             title=span_contents.name,
             start_line=span_contents.line,
             start_char_index=span_contents.span.start,
