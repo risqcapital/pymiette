@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/risqcapital/pyagnostics/compare/v2.0.0...v2.0.1) (2024-10-28)
+
+
+### Bug Fixes
+
+* suppress stack frames in causes ([#20](https://github.com/risqcapital/pyagnostics/issues/20)) ([ca76dee](https://github.com/risqcapital/pyagnostics/commit/ca76dee920be9e90d3d696f67cfd571d6354e9ea))
+
 ## [2.0.0](https://github.com/risqcapital/pyagnostics/compare/v1.1.0...v2.0.0) (2024-10-24)
 
 
