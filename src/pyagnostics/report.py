@@ -170,8 +170,11 @@ class CauseList(ConsoleRenderable):
             )
 
             yield from lines[0]
-            for line in lines[1:]:
-                yield Segment(" │ ", style=self.style)
+            for i, line in enumerate(lines[1:]):
+                if i == len(lines) - 2 and len(self.items) == 0:
+                    yield Segment("   ", style=self.style)
+                else:
+                    yield Segment(" │ ", style=self.style)
                 yield from line
 
         for i, item in enumerate(self.items):
@@ -262,6 +265,19 @@ class Report(RichCast):
                         )
                     )
                 else:
+                    nested_causes = []
+
+                    for frame in stack.frames:
+                        if any(
+                            frame.filename.startswith(path)
+                            for path in self.suppressed_frame_paths
+                        ):
+                            continue
+
+                        nested_causes.append(
+                            f"in File {frame.filename}:{frame.lineno} in {frame.name}"
+                        )
+
                     causes.append(
                         Group(
                             Text.assemble(
@@ -274,10 +290,7 @@ class Report(RichCast):
                             ),
                             CauseList(
                                 str(exc),
-                                [
-                                    f"in File {frame.filename}:{frame.lineno} in {frame.name}"
-                                    for frame in stack.frames
-                                ],
+                                nested_causes,
                                 style=self.diag.severity.style,
                             ),
                         )
