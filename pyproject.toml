@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pyagnostics"
-version = "2.0.1"
+version = "2.0.2"
 description = ""
 authors = ["RISQ Capital <dev@risqcapital.com>"]
 license = "MIT"

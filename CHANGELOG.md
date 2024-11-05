@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.2](https://github.com/risqcapital/pyagnostics/compare/v2.0.1...v2.0.2) (2024-11-05)
+
+
+### Bug Fixes
+
+* **deps:** bump rich from 13.9.3 to 13.9.4 ([#22](https://github.com/risqcapital/pyagnostics/issues/22)) ([531f8d7](https://github.com/risqcapital/pyagnostics/commit/531f8d7a3a1716cbb28e7347fdac09ee6c0d7788))
+* Wrap cause list content ([#24](https://github.com/risqcapital/pyagnostics/issues/24)) ([8a416de](https://github.com/risqcapital/pyagnostics/commit/8a416def1f9a473e551a993b90dc13fd59d7ee7a))
+
 ## [2.0.1](https://github.com/risqcapital/pyagnostics/compare/v2.0.0...v2.0.1) (2024-10-28)
 
 
