@@ -158,7 +158,17 @@ class CauseList(ConsoleRenderable):
     ) -> RenderResult:
         if self.header:
             yield Segment(" × ", style=self.style)  # noqa: RUF001
-            lines = console.render_lines(self.header, new_lines=True)
+
+            lines = console.render_lines(
+                self.header,
+                new_lines=True,
+                options=options.update(
+                    max_width=options.max_width - 3,
+                    overflow="fold",
+                    no_wrap=False,
+                ),
+            )
+
             yield from lines[0]
             for line in lines[1:]:
                 yield Segment(" │ ", style=self.style)
@@ -170,7 +180,14 @@ class CauseList(ConsoleRenderable):
                 yield NewLine()
                 continue
 
-            lines = console.render_lines(item)
+            lines = console.render_lines(
+                item,
+                options=options.update(
+                    max_width=options.max_width - 5,
+                    overflow="fold",
+                    no_wrap=False,
+                ),
+            )
 
             for j, line in enumerate(lines):
                 if j == 0:
